@@ -1,6 +1,7 @@
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import fastify from "fastify";
 import mongoose from "mongoose";
+import cors from "@fastify/cors";
 
 import { appRouter } from "./router";
 
@@ -23,6 +24,8 @@ export function createServer(opts: ServerOptions) {
     prefix,
     trpcOptions: { router: appRouter },
   });
+
+  server.register(cors, {});
 
   server.get("/", async () => {
     return { hello: "wait-on 💨" };
