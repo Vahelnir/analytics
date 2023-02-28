@@ -47,7 +47,7 @@ export async function createServer(opts: ServerOptions) {
       reply.send(error);
       return;
     }
-    reply.status(403).send(JSON.parse(error.message));
+    reply.status(400).send(JSON.parse(error.message));
   });
 
   const stop = async () => {
