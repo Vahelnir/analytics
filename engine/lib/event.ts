@@ -25,7 +25,7 @@ export function emit(
   eventBatch.push({
     event,
     data,
-    clientTime: new Date().toString(),
+    clientTime: new Date().toJSON(),
     isCustom,
   });
   sendEventBatch();
