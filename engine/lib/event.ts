@@ -14,7 +14,8 @@ let eventBatch: BaseEventInput[] = [];
 
 export function emit<T extends keyof EventTypes>(
   event: T,
-  data: EventTypes[T]
+  data: EventTypes[T],
+  isCustom?: boolean
 ): void;
 export function emit(
   event: string,
