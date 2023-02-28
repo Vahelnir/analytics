@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { z, ZodError } from "zod";
 
 import { appRouter } from "./router";
+import { eventBodySchema } from "./dto/eventInput";
 
 export interface ServerOptions {
   dev?: boolean;
@@ -32,12 +33,8 @@ export async function createServer(opts: ServerOptions) {
     return { hello: "wait-on 💨" };
   });
 
-  const eventBodySchema = z.object({
-    event: z.string(),
-  });
-  type EventBody = z.infer<typeof eventBodySchema>;
   server.post("/emitEvent", async (request, response) => {
-    const body = eventBodySchema.parse(request.body);
+    const input = eventBodySchema.parse(request.body);
 
     return {};
   });

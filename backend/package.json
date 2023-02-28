@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/main.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "build": "pnpm run \"/build:.*/\"",
     "build:type-check": "tsc --noEmit",
     "build:build": "esbuild src/main.ts --bundle --packages=external --platform=node --format=esm --outdir=dist --sourcemap",
-    "build:type-gen": "tsc --declaration --emitDeclarationOnly",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir \"types\"",
     "dev": "tsx watch src/main.ts"
   },
   "keywords": [],
