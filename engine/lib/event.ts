@@ -1,24 +1,50 @@
 import { debounce } from "throttle-debounce";
+import type {
+  BaseEventInput,
+  ClickEventInput,
+  ResizeEventInput,
+} from "backend/types/dto";
 
 interface EventTypes {
-  click: { selector: string; innerText: string };
-  resize: { width: number; height: number };
+  click: ClickEventInput["data"];
+  resize: ResizeEventInput["data"];
 }
 
-let eventBatch: unknown[] = [];
+let eventBatch: BaseEventInput[] = [];
 
 export function emit<T extends keyof EventTypes>(
   event: T,
   data: EventTypes[T]
-) {
-  eventBatch.push({ event, ...data, time: Date.now() });
+): void;
+export function emit(
+  event: string,
+  data: Record<string, any>,
+  isCustom = false
+): void {
+  eventBatch.push({
+    event,
+    data,
+    clientTime: new Date().toString(),
+    isCustom,
+  });
   sendEventBatch();
 }
 
+export const customEmit: typeof emit = (event, data) => emit(event, data, true);
+
 const sendEventBatch = debounce(500, rawSendEventBatch);
 
-function rawSendEventBatch() {
+async function rawSendEventBatch() {
   console.log("sending batch", eventBatch);
+
+  // TODO: make the API's URL configurable
+  await fetch("http://localhost:3000/emitEvent", {
+    method: "POST",
+    body: JSON.stringify(eventBatch),
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  });
+
   eventBatch = [];
-  // fetch()
 }

@@ -1,10 +1,13 @@
-import { emit } from "./event";
+import { customEmit } from "./event";
 import { run } from "./run";
 
-window.analytics = { emit, run };
+window.analytics = { emit: customEmit, run };
 
 declare global {
   interface Window {
-    analytics: { emit: typeof emit; run: typeof run };
+    analytics: {
+      emit: typeof customEmit;
+      run: typeof run;
+    };
   }
 }
