@@ -6,6 +6,7 @@ import { z, ZodError } from "zod";
 
 import { appRouter } from "./router";
 import { eventBodySchema } from "./dto/eventInput";
+import { Event, EventModel } from "./model/Event";
 
 export interface ServerOptions {
   dev?: boolean;
@@ -36,7 +37,23 @@ export async function createServer(opts: ServerOptions) {
   server.post("/emitEvent", async (request, response) => {
     const input = eventBodySchema.parse(request.body);
 
-    return {};
+    const ip = request.ip;
+    const userAgent = request.headers["user-agent"] ?? "";
+    const serverTime = new Date();
+
+    const events = input.map(
+      (event) =>
+        ({
+          ...event,
+          clientTime: new Date(event.clientTime),
+          ip,
+          userAgent,
+          serverTime,
+        } satisfies Event)
+    );
+    await EventModel.insertMany(events);
+
+    return true;
   });
 
   server.setErrorHandler((error, _request, reply) => {
