@@ -2,16 +2,19 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "build": "tsc && esbuild src/main.ts --bundle --packages=external --platform=node --format=esm --outdir=dist --sourcemap",
+    "build": "pnpm run \"/build:.*/\"",
+    "build:type-check": "tsc --noEmit",
+    "build:build": "esbuild src/main.ts --bundle --packages=external --platform=node --format=esm --outdir=dist --sourcemap",
+    "build:type-gen": "tsc --declaration --emitDeclarationOnly",
     "dev": "tsx watch src/main.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@trpc/server": "^10.13.0",
+    "@trpc/server": "^10.13.2",
     "fastify": "^4.13.0",
     "mongoose": "^7.0.0",
     "superjson": "^1.12.2",
