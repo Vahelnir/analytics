@@ -16,7 +16,7 @@ export function representElementAsCSS(element: HTMLElement | null) {
 
   // TODO: récuperer les data-attributes
 
-  const tag = element.tagName.toLocaleLowerCase();
+  const tag = element.localName;
   const id = element.id;
   const classes = [...element.classList]
     .map((cssClass) => `.${cssClass}`)
