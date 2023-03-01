@@ -2,7 +2,7 @@ import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import { fastify } from "fastify";
 import cors from "@fastify/cors";
 import mongoose from "mongoose";
-import { appRouter } from "./router";
+import { appRouter } from "./trpc";
 import { zodErrorHandler } from "./errorHandler/zodErrorHandler";
 import { emitEventRoute } from "./route/emitEvent";
 

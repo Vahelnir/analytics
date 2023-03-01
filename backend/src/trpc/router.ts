@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "./trpc";
+import { publicProcedure, router } from ".";
 
 export const appRouter = router({
   api: router({

@@ -1,5 +1,5 @@
 import { createServer } from "./server";
-export type { AppRouter } from "./router";
+export type { AppRouter } from "./trpc";
 
 async function run() {
   const server = await createServer({
