@@ -1,1 +1,1 @@
-export * from "./eventInput";
+export * from "./event";
