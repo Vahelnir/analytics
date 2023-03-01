@@ -7,6 +7,16 @@ export const trpc = createTRPCProxyClient<AppRouter>({
   links: [
     httpBatchLink({
       url: "http://localhost:3000/trpc",
+      headers() {
+        const accessToken = localStorage.getItem("accessToken");
+        let authorization = undefined;
+        if (accessToken) {
+          authorization = "Bearer " + localStorage.getItem("accessToken");
+        }
+        return {
+          Authorization: authorization,
+        };
+      },
     }),
   ],
 });
