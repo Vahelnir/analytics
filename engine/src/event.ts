@@ -19,7 +19,7 @@ export function emit<T extends keyof EventTypes>(
 ): void;
 export function emit(
   event: string,
-  data: Record<string, any>,
+  data: Record<string, unknown>,
   isCustom = false
 ): void {
   eventBatch.push({
