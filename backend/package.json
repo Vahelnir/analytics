@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "main": "dist/main.js",
-  "types": "types/index.d.ts",
+  "types": "types/main.d.ts",
   "scripts": {
     "build": "pnpm run \"/build:.*/\"",
     "build:type-check": "tsc --noEmit",
