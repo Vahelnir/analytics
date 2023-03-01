@@ -10,13 +10,19 @@ export function run() {
     }
     const element = event.target;
     const selector = getElementCSSSelector(element);
-    emit("click", { selector, innerText: element.innerText });
+    emit("click", {
+      selector,
+      innerText: element.innerText.slice(0, 100),
+    });
   });
 
   window.addEventListener(
     "resize",
     debounce(250, () => {
-      emit("resize", { height: window.innerHeight, width: window.innerWidth });
+      emit("resize", {
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
     })
   );
 }
