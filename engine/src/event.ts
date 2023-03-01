@@ -39,13 +39,16 @@ async function rawSendEventBatch() {
   console.log("sending batch", eventBatch);
 
   // TODO: make the API's URL configurable
-  await fetch("http://localhost:3000/emitEvent", {
-    method: "POST",
-    body: JSON.stringify(eventBatch),
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-    },
-  });
-
-  eventBatch = [];
+  try {
+    await fetch("http://localhost:3000/emitEvent", {
+      method: "POST",
+      body: JSON.stringify(eventBatch),
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+    });
+    eventBatch = [];
+  } catch (err) {
+    // retry next time
+  }
 }
