@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "lint": "eslint --cache --ext .ts ./*/src/**.ts",
+    "lint": "eslint --cache --ext .ts ./**/src/**/*.ts",
     "format": "prettier --write --cache --parser typescript \"**/*.[tj]s?(x)\"",
     "format-check": "prettier --check --cache --parser typescript \"**/*.[tj]s?(x)\""
   },
