@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { hash } from "argon2";
 import { User, UserModel } from "../model/User";
 import { router, publicProcedure } from ".";
 
@@ -31,7 +32,7 @@ export const user = router({
         const newUser = await UserModel.create({
           email,
           username,
-          password,
+          password: await hash(password),
           applications: {},
           tokens: [],
         });
