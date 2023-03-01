@@ -1,8 +1,9 @@
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import { fastify } from "fastify";
 import cors from "@fastify/cors";
+import { fastifyJwt } from "@fastify/jwt";
 import mongoose from "mongoose";
-import { appRouter } from "./trpc";
+import { appRouter, createContext } from "./trpc";
 import { zodErrorHandler } from "./errorHandler/zodErrorHandler";
 import { emitEventRoute } from "./route/emitEvent";
 
@@ -24,15 +25,19 @@ export async function createServer(opts: ServerOptions) {
   await Promise.all([
     server.register(fastifyTRPCPlugin, {
       prefix,
-      trpcOptions: { router: appRouter },
+      trpcOptions: { router: appRouter, createContext },
     }),
     server.register(cors, {}),
+    server.register(fastifyJwt, {
+      // TODO: configure the secret in .env
+      secret: "hello je suis secret",
+    }),
     server.register(zodErrorHandler),
     server.register(emitEventRoute),
   ]);
 
   server.get("/", async () => {
-    return { hello: "wait-on 💨" };
+    return { hello: "world" };
   });
 
   const stop = async () => {

@@ -1,18 +1,36 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { hash } from "argon2";
-import { User, UserModel } from "../model/User";
+import { hash, verify } from "argon2";
+import { UserModel } from "../model/User";
 import { userModelToUserOutput, UserOutput } from "../dto/user";
-import { router, publicProcedure } from ".";
+import { login } from "../service/user";
+import { router, publicProcedure, loggedProcedure } from ".";
 
 export const user = router({
-  login: publicProcedure.query(async (): Promise<User> => {
-    const res = await UserModel.findOne({});
-    if (!res) {
-      throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
-    }
-    return res;
-  }),
+  login: publicProcedure
+    .input(z.object({ email: z.string().email(), password: z.string() }))
+    .mutation(
+      async ({
+        input: { email, password },
+        ctx: { jwt },
+      }): Promise<{ accessToken: string }> => {
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
+        }
+
+        const isPasswordValid = await verify(user.password, password);
+        if (!isPasswordValid) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Wrong email or password",
+          });
+        }
+
+        const { accessToken } = await login(jwt, user);
+        return { accessToken };
+      }
+    ),
   register: publicProcedure
     .input(
       z.object({
@@ -30,6 +48,7 @@ export const user = router({
             message: "User already exists",
           });
         }
+
         const newUser = await UserModel.create({
           email,
           username,
@@ -40,4 +59,5 @@ export const user = router({
         return userModelToUserOutput(newUser);
       }
     ),
+  authentication: loggedProcedure.query(() => ({ working: true })),
 });
