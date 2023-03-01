@@ -2,7 +2,7 @@ import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import fastify from "fastify";
 import cors from "@fastify/cors";
 import mongoose from "mongoose";
-import { z, ZodError } from "zod";
+import { ZodError } from "zod";
 
 import { appRouter } from "./router";
 import { eventBodySchema } from "./dto/eventInput";
@@ -34,7 +34,7 @@ export async function createServer(opts: ServerOptions) {
     return { hello: "wait-on 💨" };
   });
 
-  server.post("/emitEvent", async (request, response) => {
+  server.post("/emitEvent", async (request) => {
     const input = eventBodySchema.parse(request.body);
 
     const ip = request.ip;
