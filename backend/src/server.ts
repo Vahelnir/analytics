@@ -1,12 +1,11 @@
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
-import fastify from "fastify";
+import { fastify } from "fastify";
 import cors from "@fastify/cors";
 import mongoose from "mongoose";
 import { ZodError } from "zod";
-
+import { Event, EventModel } from "./model/Event";
 import { appRouter } from "./router";
 import { eventBodySchema } from "./dto/eventInput";
-import { Event, EventModel } from "./model/Event";
 
 export interface ServerOptions {
   dev?: boolean;

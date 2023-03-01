@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 type BaseEvent<
   E extends string,
-  D extends Record<string, any>,
+  D extends Record<string, unknown>,
   C extends boolean = false
 > = {
   event: E;
@@ -24,7 +24,7 @@ export type ResizeEvent = BaseEvent<
   { width: number; height: number }
 >;
 
-export type CustomEvent = BaseEvent<string, Record<string, any>, true>;
+export type CustomEvent = BaseEvent<string, Record<string, unknown>, true>;
 
 export type Event = CustomEvent | ResizeEvent | ClickEvent;
 

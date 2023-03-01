@@ -1,5 +1,4 @@
 import { createServer } from "./server";
-
 export type { AppRouter } from "./router";
 
 async function run() {
