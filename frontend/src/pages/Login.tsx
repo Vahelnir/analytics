@@ -1,8 +1,11 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { trpc } from "../trpc";
 import { Input } from "../components/ui/form/Input";
+import { setAuthTokens } from "../service/auth";
 
 export function Login() {
+  const loginMutation = trpc.api.user.login.useMutation();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,13 +16,11 @@ export function Login() {
   }
 
   async function submit() {
-    const { accessToken } = await trpc.api.user.login.mutate({
+    const tokens = await loginMutation.mutateAsync({
       email,
       password,
     });
-
-    console.log(accessToken);
-    localStorage.setItem("accessToken", accessToken);
+    setAuthTokens(tokens);
   }
 
   return (
