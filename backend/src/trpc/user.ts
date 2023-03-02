@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { hash, verify } from "argon2";
 import { UserModel } from "../model/User";
-import { userModelToUserOutput, UserOutput } from "../dto/user";
+import { userModelToUserOutput, UserWithTokensOutput } from "../dto/user";
 import { login, verifyToken } from "../service/user";
 import { router, publicProcedure, loggedProcedure } from ".";
 
@@ -45,7 +45,10 @@ export const user = router({
       })
     )
     .mutation(
-      async ({ input: { email, username, password } }): Promise<UserOutput> => {
+      async ({
+        input: { email, username, password },
+        ctx: { jwt },
+      }): Promise<UserWithTokensOutput> => {
         const res = await UserModel.findOne({ email });
         if (res) {
           throw new TRPCError({
@@ -61,7 +64,8 @@ export const user = router({
           applications: {},
           tokens: [],
         });
-        return userModelToUserOutput(newUser);
+        const tokens = await login(jwt, newUser);
+        return { ...userModelToUserOutput(newUser), ...tokens };
       }
     ),
   refresh: publicProcedure

@@ -6,7 +6,12 @@ import { User } from "../model/User";
 const REFRESH_TOKEN_EXPIRE = 60 * 60 * 24 * 7; // 7j
 const ACCESS_TOKEN_EXPIRE = 60 * 20; // 20m
 
-export async function login(jwt: JWT, user: HydratedDocument<User>) {
+export type AuthTokens = { refreshToken: string; accessToken: string };
+
+export async function login(
+  jwt: JWT,
+  user: HydratedDocument<User>
+): Promise<AuthTokens> {
   const now = new Date();
   const expiresAt = new Date(Date.now() + REFRESH_TOKEN_EXPIRE * 1000);
   const accessToken = jwt.sign(
