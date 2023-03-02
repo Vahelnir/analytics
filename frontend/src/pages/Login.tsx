@@ -1,9 +1,17 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from "react";
+import { useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 import { Input } from "../components/ui/form/Input";
 import { setAuthTokens } from "../service/auth";
 
 export function Login() {
+  const navigate = useNavigate();
   const loginMutation = trpc.api.user.login.useMutation();
 
   const [email, setEmail] = useState("");
@@ -15,7 +23,7 @@ export function Login() {
     };
   }
 
-  async function submit() {
+  async function loginUser() {
     const tokens = await loginMutation.mutateAsync({
       email,
       password,
@@ -23,11 +31,17 @@ export function Login() {
     setAuthTokens(tokens);
   }
 
+  async function onFormSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await loginUser();
+    navigate("/");
+  }
+
   return (
     <section className="flex justify-center items-center h-screen">
       <div className="w-full max-w-sm bg-base-300 border-base-300 border rounded-md p-4">
         <h1>Connexion</h1>
-        <div>
+        <form onSubmit={onFormSubmit}>
           <div className="my-2 flex flex-col">
             <label htmlFor="email">Adresse email</label>
             <Input
@@ -48,10 +62,10 @@ export function Login() {
               value={password}
             />
           </div>
-          <button type="button" className="btn mt-3" onClick={() => submit()}>
+          <button type="submit" className="btn mt-3">
             Se connecter
           </button>
-        </div>
+        </form>
       </div>
     </section>
   );

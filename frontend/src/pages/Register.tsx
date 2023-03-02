@@ -1,8 +1,18 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from "react";
+import { useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 import { Input } from "../components/ui/form/Input";
+import { setAuthTokens } from "../service/auth";
 
 export function Register() {
+  const navigate = useNavigate();
+  const registerMutate = trpc.api.user.register.useMutation();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -13,21 +23,26 @@ export function Register() {
     };
   }
 
-  async function submit() {
-    const createdUser = await trpc.api.user.register.mutate({
+  async function registerUser() {
+    const userWithTokens = await registerMutate.mutateAsync({
       email,
       username,
       password,
     });
+    setAuthTokens(userWithTokens);
+  }
 
-    console.log(createdUser);
+  async function onFormSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await registerUser();
+    navigate("/");
   }
 
   return (
     <section className="flex justify-center items-center h-screen">
       <div className="w-full max-w-sm bg-base-300 border-base-300 border rounded-md p-4">
         <h1>Inscription</h1>
-        <div>
+        <form onSubmit={onFormSubmit}>
           <div className="my-2 flex flex-col">
             <label htmlFor="email">Adresse email</label>
             <Input
@@ -58,10 +73,10 @@ export function Register() {
               value={password}
             />
           </div>
-          <button type="button" className="btn mt-3" onClick={() => submit()}>
+          <button type="submit" className="btn mt-3">
             S&apos;inscrire
           </button>
-        </div>
+        </form>
       </div>
     </section>
   );
