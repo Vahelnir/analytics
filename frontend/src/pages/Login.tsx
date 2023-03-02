@@ -1,6 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { trpc } from "../trpc";
-import { Input } from "../ui/form/Input";
+import { Input } from "../components/ui/form/Input";
 
 export function Login() {
   const [email, setEmail] = useState("");
