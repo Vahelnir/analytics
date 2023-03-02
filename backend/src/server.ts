@@ -1,6 +1,6 @@
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import { fastify } from "fastify";
-import cors from "@fastify/cors";
+import { fastifyCors } from "@fastify/cors";
 import { fastifyJwt } from "@fastify/jwt";
 import mongoose from "mongoose";
 import { appRouter, createContext } from "./trpc";
@@ -27,7 +27,7 @@ export async function createServer(opts: ServerOptions) {
       prefix,
       trpcOptions: { router: appRouter, createContext },
     }),
-    server.register(cors, {}),
+    server.register(fastifyCors, {}),
     server.register(fastifyJwt, {
       // TODO: configure the secret in .env
       secret: "hello je suis secret",

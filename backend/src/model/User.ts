@@ -16,8 +16,9 @@ export const UserSchema = new Schema(
     tokens: {
       type: [
         {
-          jwt: { type: String, required: true },
-          refresh: { type: String, required: true },
+          accessToken: { type: String, required: true },
+          refreshToken: { type: String, required: true },
+          expiresAt: { type: Date, required: true },
         },
       ],
       required: true,

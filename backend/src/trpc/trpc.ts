@@ -3,6 +3,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { FastifyRequest } from "fastify";
 import superjson from "superjson";
 import { UserModel } from "../model/User";
+import { verifyToken } from "../service/user";
 import { Context } from "./context";
 
 const t = initTRPC.context<Context>().create({
@@ -15,19 +16,14 @@ export const publicProcedure = t.procedure;
 
 const isAuthed = t.middleware(async ({ next, ctx: { jwt, req } }) => {
   const authorization = getAuthorizationHeader(req);
-  const bearerToken = getBearerToken(authorization);
-  const decodedUser = verifyToken(jwt, bearerToken);
+  const accessToken = getBearerToken(authorization);
+  const decodedUser = verifyAccessTokenToken(jwt, accessToken);
 
-  const user = await UserModel.findOne({ _id: decodedUser.id });
+  const user = await UserModel.findOne({
+    _id: decodedUser.id,
+    tokens: { $elemMatch: { accessToken } },
+  });
   if (!user) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "no user associated with this token",
-    });
-  }
-
-  const foundToken = user.tokens.find(({ jwt }) => jwt === bearerToken);
-  if (!foundToken) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "no user associated with this token",
@@ -64,24 +60,7 @@ function getBearerToken(authorization: string) {
   return credentials;
 }
 
-function verifyToken(jwt: JWT, token: string) {
-  let decodedUser = undefined;
-  try {
-    // TODO: see if this is also checking if the token has been expired
-    decodedUser = jwt.verify(token);
-  } catch (err) {
-    // ignore error
-  }
-  if (
-    !decodedUser ||
-    typeof decodedUser !== "object" ||
-    !("id" in decodedUser) ||
-    typeof decodedUser.id !== "string"
-  ) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "no user associated with this token",
-    });
-  }
+function verifyAccessTokenToken(jwt: JWT, token: string) {
+  const decodedUser = verifyToken(jwt, token);
   return decodedUser;
 }
