@@ -1,6 +1,17 @@
-import { Schema, model, Types, InferSchemaType } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
-export const UserSchema = new Schema(
+export type User = {
+  _id: Types.ObjectId;
+  username: string;
+  password: string;
+  email: string;
+  applications: Map<string, { token: string; urls: string[] }>;
+  tokens: { accessToken: string; refreshToken: string; expiresAt: Date }[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export const UserSchema = new Schema<User>(
   {
     username: { type: String, required: true },
     password: { type: String, required: true },
@@ -27,6 +38,4 @@ export const UserSchema = new Schema(
   { timestamps: true }
 );
 
-export type User = InferSchemaType<typeof UserSchema> & { _id: Types.ObjectId };
-
-export const UserModel = model("User", UserSchema);
+export const UserModel = model<User>("User", UserSchema);
