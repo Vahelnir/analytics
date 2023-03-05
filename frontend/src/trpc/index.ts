@@ -18,7 +18,7 @@ export const trpcClient = trpc.createClient({
       async refresh() {
         const { refreshToken: currentRefreshToken } = getAuthTokens();
         if (!currentRefreshToken) {
-          return redirectToLogin;
+          throw new Error("no refresh token");
         }
 
         // cast as a type because TRPC currently has broken

@@ -10,8 +10,8 @@ import { TRPCLink } from "@trpc/react-query";
 
 export type AuthLinkOptions = {
   ignore: string[];
-  refresh: () => Promise<unknown>;
-  onFailedRefresh: () => Promise<unknown>;
+  refresh: () => Promise<void>;
+  onFailedRefresh: (error: unknown) => Promise<void>;
 };
 
 export function authLink({
@@ -36,8 +36,7 @@ export function authLink({
             cleanup();
           })
           .catch(async (error) => {
-            onFailedRefresh();
-            observer.error(error);
+            onFailedRefresh(error);
             cleanup();
           });
       }).pipe(share());
