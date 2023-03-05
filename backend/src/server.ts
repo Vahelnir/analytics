@@ -1,8 +1,10 @@
+import { join } from "path";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import { fastify } from "fastify";
 import { fastifyCors } from "@fastify/cors";
 import { fastifyJwt } from "@fastify/jwt";
 import mongoose from "mongoose";
+import { fastifyStatic } from "@fastify/static";
 import { appRouter, createContext } from "./trpc";
 import { zodErrorHandler } from "./errorHandler/zodErrorHandler";
 import { emitEventRoute } from "./route/emitEvent";
@@ -34,6 +36,10 @@ export async function createServer(opts: ServerOptions) {
     }),
     server.register(zodErrorHandler),
     server.register(emitEventRoute),
+    server.register(fastifyStatic, {
+      root: join(__dirname, "../engine"),
+      prefix: "/engine/",
+    }),
   ]);
 
   server.get("/", async () => {

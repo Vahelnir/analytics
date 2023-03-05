@@ -6,6 +6,7 @@ export default defineConfig({
       entry: "./src/main.ts",
       name: "analytics",
       fileName: "analytics",
+      formats: ["iife", "es"],
     },
   },
 });
