@@ -5,6 +5,10 @@ import { router } from "../router";
 import { AuthTokens, getAuthTokens, setAuthTokens } from "../service/auth";
 import { authLink } from "./link/authLink";
 
+function redirectToLogin() {
+  return router.navigate("/login");
+}
+
 export const trpc = createTRPCReact<AppRouter>();
 export const trpcClient = trpc.createClient({
   transformer: superjson,
@@ -14,7 +18,7 @@ export const trpcClient = trpc.createClient({
       async refresh() {
         const { refreshToken: currentRefreshToken } = getAuthTokens();
         if (!currentRefreshToken) {
-          return router.navigate("/login");
+          return redirectToLogin;
         }
 
         // cast as a type because TRPC currently has broken
@@ -27,6 +31,7 @@ export const trpcClient = trpc.createClient({
         )("api.user.refresh", { refreshToken: currentRefreshToken });
         setAuthTokens(tokens);
       },
+      onFailedRefresh: () => redirectToLogin(),
     }),
     httpBatchLink({
       url: "http://localhost:3000/trpc",

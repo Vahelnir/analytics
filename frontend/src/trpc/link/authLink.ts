@@ -1,60 +1,90 @@
 import type { AppRouter } from "backend/types/trpc/router";
-import { Observable, observable } from "@trpc/server/observable";
+import {
+  Observable,
+  observable,
+  Observer,
+  share,
+  Unsubscribable,
+} from "@trpc/server/observable";
 import { TRPCLink } from "@trpc/react-query";
 
 export type AuthLinkOptions = {
   ignore: string[];
-  refresh: () => Promise<unknown> | undefined;
+  refresh: () => Promise<unknown>;
+  onFailedRefresh: () => Promise<unknown>;
 };
 
 export function authLink({
   ignore,
   refresh,
+  onFailedRefresh,
 }: AuthLinkOptions): TRPCLink<AppRouter> {
   return () => {
     let isRefreshing = false;
     let currentRefresh$: Observable<unknown, unknown> | null = null;
 
-    async function refreshToken() {
+    function refreshToken() {
       isRefreshing = true;
-      await refresh();
-      isRefreshing = false;
-      currentRefresh$ = null;
+      const cleanup = () => {
+        isRefreshing = false;
+        currentRefresh$ = null;
+      };
+      currentRefresh$ = observable((observer) => {
+        refresh()
+          .then(() => {
+            observer.complete();
+            cleanup();
+          })
+          .catch(async (error) => {
+            onFailedRefresh();
+            observer.error(error);
+            cleanup();
+          });
+      }).pipe(share());
     }
 
     return ({ next, op }) => {
-      function performRequest() {
-        return observable((observer) => {
-          const unsubscribe = next(op).subscribe({
-            next: observer.next,
-            complete: observer.complete,
-            async error(error) {
-              if (error.data?.code === "UNAUTHORIZED" && !isRefreshing) {
-                refreshToken();
-              }
-              observer.error(error);
-            },
-          });
-          return unsubscribe;
+      function sendNextOperation(observer: Observer<unknown, unknown>) {
+        return next(op).subscribe({
+          next: observer.next,
+          complete: observer.complete,
+          async error(error) {
+            if (error.data?.code === "UNAUTHORIZED" && !isRefreshing) {
+              refreshToken();
+            }
+            observer.error(error);
+          },
         });
+      }
+
+      function sendNextOperationObservable() {
+        return observable((observer) => sendNextOperation(observer));
       }
 
       // allow some requests to not wait the refresh
       if (ignore.includes(op.path)) {
-        currentRefresh$ = performRequest();
-        return currentRefresh$;
+        return sendNextOperationObservable();
       }
 
       // wait for the current refresh to be done
       if (isRefreshing && currentRefresh$) {
-        return observable((observer) =>
-          currentRefresh$?.subscribe({
-            complete: () => next(op).subscribe(observer),
-          })
-        );
+        return observable((observer: Observer<unknown, unknown>) => {
+          const sendNextOp = () => {
+            unsubscribeNextOp = sendNextOperation(observer);
+          };
+          let unsubscribeNextOp: Unsubscribable | null = null;
+          const unsubscribeCurrentRefresh = currentRefresh$?.subscribe({
+            complete: () => sendNextOp(),
+            error: () => sendNextOp(),
+          });
+          return () => {
+            unsubscribeCurrentRefresh?.unsubscribe();
+            unsubscribeNextOp?.unsubscribe();
+          };
+        });
       }
 
-      return performRequest();
+      return sendNextOperationObservable();
     };
   };
 }
