@@ -5,7 +5,7 @@ import {
   SetStateAction,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 import { Input } from "../components/ui/form/Input";
 import { setAuthTokens } from "../service/auth";
@@ -40,7 +40,7 @@ export function Login() {
   return (
     <section className="flex justify-center items-center h-screen">
       <div className="w-full max-w-sm bg-base-300 border-base-300 border rounded-md p-4">
-        <h1>Connexion</h1>
+        <h1 className="text-2xl font-bold">Connexion</h1>
         <form onSubmit={onFormSubmit}>
           <div className="my-2 flex flex-col">
             <label htmlFor="email">Adresse email</label>
@@ -62,9 +62,16 @@ export function Login() {
               value={password}
             />
           </div>
-          <button type="submit" className="btn mt-3">
-            Se connecter
-          </button>
+          <div className="flex justify-center">
+            <Link to="/register" className="link">
+              Pas encore inscrit ?
+            </Link>
+          </div>
+          <div className="flex justify-end">
+            <button type="submit" className="btn mt-3">
+              Se connecter
+            </button>
+          </div>
         </form>
       </div>
     </section>
