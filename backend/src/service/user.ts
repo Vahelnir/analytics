@@ -46,6 +46,23 @@ export async function refresh(
   return login(jwt, user);
 }
 
+export async function logout(
+  user: HydratedDocument<User>,
+  accessToken: string
+) {
+  // invalidate the current access token and its related refresh token
+  user.tokens = user.tokens.filter(
+    (tokenEntry) => tokenEntry.accessToken !== accessToken
+  );
+  try {
+    await user.save();
+  } catch (err) {
+    // TODO: log error to know how this happend
+    return false;
+  }
+  return true;
+}
+
 export function verifyToken(jwt: JWT, token: string) {
   let decodedUser;
   try {

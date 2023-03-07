@@ -3,7 +3,7 @@ import { z } from "zod";
 import { hash, verify } from "argon2";
 import { UserModel } from "../model/User";
 import { userModelToUserOutput, UserWithTokensOutput } from "../dto/user";
-import { login, verifyToken } from "../service/user";
+import { login, logout, verifyToken } from "../service/user";
 import { router, publicProcedure, loggedProcedure } from ".";
 
 type AuthTokens = { refreshToken: string; accessToken: string };
@@ -91,5 +91,27 @@ export const user = router({
         return { accessToken, refreshToken };
       }
     ),
+  logout: loggedProcedure.mutation(
+    async ({ ctx: { jwt, loggedUser } }): Promise<boolean> => {
+      const accessToken = loggedUser.accessToken;
+      if (!accessToken) {
+        throw new Error("access token should be defined");
+      }
+      const decodedUser = verifyToken(jwt, accessToken);
+      const user = await UserModel.findOne({
+        _id: decodedUser.id,
+        tokens: { $elemMatch: { accessToken } },
+      });
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Refresh token not found",
+        });
+      }
+
+      const success = await logout(user, accessToken);
+      return success;
+    }
+  ),
   authentication: loggedProcedure.query(() => ({ working: true })),
 });

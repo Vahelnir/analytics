@@ -25,13 +25,10 @@ export async function createServer(opts: ServerOptions) {
   const server = fastify({ logger: dev });
 
   await Promise.all([
-    server.register(fastifyTRPCPlugin, {
-      prefix,
-      trpcOptions: { router: appRouter, createContext },
-    }),
     server.register(fastifyCors, {}),
     server.register(fastifyJwt, {
       // TODO: configure the secret in .env
+      // TODO: have one secret for the access and one for the refresh
       secret: "hello je suis secret",
     }),
     server.register(zodErrorHandler),
@@ -39,6 +36,10 @@ export async function createServer(opts: ServerOptions) {
     server.register(fastifyStatic, {
       root: join(__dirname, "../engine"),
       prefix: "/engine/",
+    }),
+    server.register(fastifyTRPCPlugin, {
+      prefix,
+      trpcOptions: { router: appRouter, createContext },
     }),
   ]);
 
