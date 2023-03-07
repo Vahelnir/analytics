@@ -1,13 +1,19 @@
 import { customEmit } from "./event";
-import { run } from "./run";
+import { AnalyticsConfig, init } from "./init";
 
-window.analytics = { emit: customEmit, run };
+window.analytics = {
+  emit: () => {
+    throw new Error("run init() first");
+  },
+  init,
+};
 
 declare global {
   interface Window {
     analytics: {
+      config?: AnalyticsConfig;
       emit: typeof customEmit;
-      run: typeof run;
+      init: typeof init;
     };
   }
 }

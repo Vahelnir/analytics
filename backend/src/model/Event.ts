@@ -12,6 +12,7 @@ type BaseEvent<
   ip: string;
   userAgent: string;
   isCustom: C;
+  applicationId: string;
 };
 
 export type ClickEvent = BaseEvent<
@@ -39,6 +40,7 @@ export const EventSchema = new Schema<Event>({
   userAgent: { type: String, required: true },
   ip: { type: String, required: true },
   isCustom: { type: Boolean, required: true },
+  applicationId: { type: String, required: true },
 });
 
 export const EventModel = model<Event>("Event", EventSchema);

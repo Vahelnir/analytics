@@ -22,9 +22,18 @@
     <script defer type="module" src="/src/main.ts"></script>
     <script defer>
       document.addEventListener("DOMContentLoaded", function () {
-        analytics.run({ apiKey: "mon-api-key" });
+        analytics.init({
+          applicationId: "b94b49ff-feca-488f-9dcd-4953135af92c",
+        });
         console.log("emit", analytics.emit);
       });
     </script>
+    <!-- <script defer src="http://localhost:3000/engine/analytics.iife.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        analytics.run({ apiKey: "mon-api-key" });
+        console.log("emit", analytics.emit);
+      });
+    </script> -->
   </body>
 </html>

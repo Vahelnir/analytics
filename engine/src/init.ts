@@ -1,9 +1,13 @@
 import { debounce } from "throttle-debounce";
 
 import { getElementCSSSelector } from "./element";
-import { emit } from "./event";
+import { customEmit, emit } from "./event";
 
-export function run() {
+export type AnalyticsConfig = { applicationId: string };
+
+export function init(config: AnalyticsConfig) {
+  window.analytics.config = config;
+  window.analytics.emit = customEmit;
   document.addEventListener("click", (event) => {
     if (!(event.target instanceof HTMLElement)) {
       return;

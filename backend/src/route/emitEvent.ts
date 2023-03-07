@@ -10,6 +10,8 @@ export const emitEventRoute: FastifyPluginAsync = async (server) => {
     const userAgent = request.headers["user-agent"] ?? "";
     const serverTime = new Date();
 
+    // TODO: check if the application id exists
+
     const events = input.map(
       (event) =>
         ({

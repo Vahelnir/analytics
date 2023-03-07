@@ -22,11 +22,13 @@ export function emit(
   data: Record<string, unknown>,
   isCustom = false
 ): void {
+  const config = window.analytics.config;
   eventBatch.push({
     event,
     data,
     clientTime: new Date().toJSON(),
     isCustom,
+    applicationId: config?.applicationId ?? "",
   });
   sendEventBatch();
 }

@@ -5,6 +5,7 @@ const baseEventInputSchema = z.object({
   data: z.record(z.any()),
   clientTime: z.string().datetime(),
   isCustom: z.boolean(),
+  applicationId: z.string().uuid(),
 });
 
 export const clickEventInputSchema = baseEventInputSchema.extend({
