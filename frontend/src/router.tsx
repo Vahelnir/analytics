@@ -1,8 +1,10 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
-import { Dashboard } from "./pages/Dashboard";
+import { createBrowserRouter } from "react-router-dom";
+import { DashboardLayout } from "./pages/DashboardLayout";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Logout } from "./pages/Logout";
+import { Applications } from "./pages/Applications";
+import { Application } from "./pages/Applications/Application";
 
 export const router = createBrowserRouter([
   {
@@ -19,10 +21,20 @@ export const router = createBrowserRouter([
   },
   {
     path: "/",
-    loader: () => redirect("/dashboard"),
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "",
+        element: <>Dashboard home</>,
+      },
+      {
+        path: "applications",
+        element: <Applications />,
+      },
+      {
+        path: "applications/:applicationId",
+        element: <Application />,
+      },
+    ],
   },
 ]);

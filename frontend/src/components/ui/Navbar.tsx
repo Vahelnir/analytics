@@ -4,7 +4,7 @@ export function Navbar() {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <Link className="btn btn-ghost normal-case text-xl" to="/dashboard">
+        <Link className="btn btn-ghost normal-case text-xl" to="/">
           Analytics
         </Link>
       </div>
@@ -23,7 +23,7 @@ export function Navbar() {
               <a>Profil</a>
             </li>
             <li>
-              <a>Applications</a>
+              <Link to="/applications">Applications</Link>
             </li>
             <li>
               <Link to="/logout">Déconnexion</Link>

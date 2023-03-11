@@ -12,7 +12,7 @@ import { setAuthTokens } from "../service/auth";
 
 export function Login() {
   const navigate = useNavigate();
-  const loginMutation = trpc.api.user.login.useMutation();
+  const loginMutation = trpc.api.auth.login.useMutation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
