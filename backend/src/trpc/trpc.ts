@@ -13,38 +13,31 @@ const t = initTRPC.context<Context>().create({
 export const router = t.router;
 export const publicProcedure = t.procedure;
 
-const isAuthed = t.middleware(
-  async ({
-    next,
-    ctx: {
-      jwt,
-      loggedUser: { accessToken },
-    },
-  }) => {
-    if (!accessToken) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "invalid access token",
-      });
-    }
-    const decodedUser = verifyAccessTokenToken(jwt, accessToken);
-
-    const user = await UserModel.findOne({
-      _id: decodedUser.id,
-      tokens: { $elemMatch: { accessToken } },
-    });
-    if (!user) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "no user associated with this token",
-      });
-    }
-
-    return next({
-      ctx: { user },
+const isAuthed = t.middleware(async ({ next, ctx: { jwt, loggedUser } }) => {
+  const { accessToken } = loggedUser;
+  if (!accessToken) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "invalid access token",
     });
   }
-);
+  const decodedUser = verifyAccessTokenToken(jwt, accessToken);
+
+  const user = await UserModel.findOne({
+    _id: decodedUser.id,
+    tokens: { $elemMatch: { accessToken } },
+  });
+  if (!user) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "no user associated with this token",
+    });
+  }
+
+  return next({
+    ctx: { loggedUser: { accessToken, user } },
+  });
+});
 export const loggedProcedure = t.procedure.use(isAuthed);
 
 function verifyAccessTokenToken(jwt: JWT, token: string) {

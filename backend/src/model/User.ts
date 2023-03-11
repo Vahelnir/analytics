@@ -1,27 +1,29 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types, Model } from "mongoose";
+import { Application, ApplicationSchema } from "./Application";
 
 export type User = {
   _id: Types.ObjectId;
   username: string;
   password: string;
   email: string;
-  applications: Map<string, { token: string; urls: string[] }>;
+  applications: Application[];
   tokens: { accessToken: string; refreshToken: string; expiresAt: Date }[];
   createdAt: Date;
   updatedAt: Date;
 };
 
-export const UserSchema = new Schema<User>(
+type UserDocumentProps = {
+  applications: Types.DocumentArray<Application>;
+};
+export type UserModel = Model<User, object, UserDocumentProps>;
+
+export const UserSchema = new Schema<User, UserModel>(
   {
     username: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String, required: true },
     applications: {
-      type: Map,
-      of: {
-        token: { type: String, required: true },
-        urls: { type: [String], required: true },
-      },
+      type: [ApplicationSchema],
       required: true,
     },
     tokens: {
@@ -38,4 +40,4 @@ export const UserSchema = new Schema<User>(
   { timestamps: true }
 );
 
-export const UserModel = model<User>("User", UserSchema);
+export const UserModel = model<User, UserModel>("User", UserSchema);
