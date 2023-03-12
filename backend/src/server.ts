@@ -54,7 +54,7 @@ export async function createServer(opts: ServerOptions) {
   const start = async () => {
     try {
       await mongoose.connect(databaseUrl);
-      await server.listen({ port });
+      await server.listen({ port, host: dev ? "127.0.0.1" : "0.0.0.0" });
       console.log("listening on port", port);
     } catch (err) {
       server.log.error(err);

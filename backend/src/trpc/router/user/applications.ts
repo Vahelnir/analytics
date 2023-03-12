@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import isURL from "validator/es/lib/isURL";
+import isURL from "validator/lib/isURL";
 import { applicationToDto } from "../../../dto/application";
 import { loggedProcedure, router } from "../../trpc";
 

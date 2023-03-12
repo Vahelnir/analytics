@@ -17,3 +17,23 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+  builder:
+    build: .
+    image: builder
+  backend:
+    depends_on:
+      - builder
+      - mongo
+    build: ./backend
+    environment:
+      DATABASE_URL: mongodb://root:password@mongo:27017/analytics?authSource=admin
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+  frontend:
+    depends_on:
+      - builder
+      - backend
+    build: ./frontend
+    ports:
+      - 8080:80
