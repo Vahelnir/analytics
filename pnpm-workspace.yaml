@@ -2,3 +2,4 @@ packages:
   - backend
   - frontend
   - engine
+  - fake-data-generator

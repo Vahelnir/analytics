@@ -1,2 +1,3 @@
 postcss.config.cjs
 tailwind.config.cjs
+fake-data-generator/
