@@ -8,6 +8,11 @@ export type AnalyticsConfig = { applicationId: string };
 export function init(config: AnalyticsConfig) {
   window.analytics.config = config;
   window.analytics.emit = customEmit;
+  emit("resize", {
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+
   document.addEventListener("click", (event) => {
     if (!(event.target instanceof HTMLElement)) {
       return;
