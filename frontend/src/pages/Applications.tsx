@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { trpc } from "../trpc";
 
 export function Applications() {
-  const applications = trpc.api.user.applications.all.useQuery();
+  const applications = trpc.api.applications.all.useQuery();
   return (
     <div>
       <h2 className="text-3xl mt-4">Liste des applications</h2>

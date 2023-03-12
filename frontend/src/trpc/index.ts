@@ -40,6 +40,8 @@ export const trpcClient = trpc.createClient({
     }),
     httpBatchLink({
       url: "http://localhost:3000/trpc",
+      // Not sure what exact value to put here :shrug:
+      maxURLLength: 880,
       headers() {
         const accessToken = localStorage.getItem("accessToken");
         let authorization = undefined;

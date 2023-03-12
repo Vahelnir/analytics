@@ -6,6 +6,7 @@ import { Logout } from "./pages/Logout";
 import { Applications } from "./pages/Applications";
 import { Application } from "./pages/Applications/Application";
 import { CreateApplication } from "./pages/Applications/CreateApplication";
+import { Home } from "./pages/Home";
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <>Dashboard home</>,
+        element: <Home />,
       },
       {
         path: "applications",

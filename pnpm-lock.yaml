@@ -31,6 +31,7 @@ importers:
       '@fastify/static': ^6.9.0
       '@trpc/server': ^10.13.2
       '@types/node': ^18.14.2
+      '@types/ua-parser-js': ^0.7.36
       '@types/validator': ^13.7.13
       argon2: ^0.30.3
       esbuild: ^0.17.10
@@ -40,6 +41,7 @@ importers:
       superjson: ^1.12.2
       tsx: ^3.12.3
       typescript: ^4.9.3
+      ua-parser-js: ^1.0.34
       validator: ^13.9.0
       zod: ^3.20.6
     dependencies:
@@ -53,10 +55,12 @@ importers:
       mongoose: 7.0.0
       react: 18.2.0
       superjson: 1.12.2
+      ua-parser-js: 1.0.34
       validator: 13.9.0
       zod: 3.20.6
     devDependencies:
       '@types/node': 18.14.2
+      '@types/ua-parser-js': 0.7.36
       esbuild: 0.17.10
       tsx: 3.12.3
       typescript: 4.9.5
@@ -88,11 +92,13 @@ importers:
       '@vitejs/plugin-react-swc': ^3.0.0
       autoprefixer: ^10.4.13
       backend: workspace:*
+      chart.js: ^4.2.1
       daisyui: ^2.51.2
       localforage: ^1.10.0
       match-sorter: ^6.3.1
       postcss: ^8.4.21
       react: ^18.1.0
+      react-chartjs-2: ^5.2.0
       react-dom: ^18.1.0
       react-router-dom: ^6.8.2
       react-syntax-highlighter: ^15.5.0
@@ -106,9 +112,11 @@ importers:
       '@trpc/client': 10.13.2_@trpc+server@10.13.2
       '@trpc/react-query': 10.13.2_w2dojgm3bys2lxryeuz73f2m7e
       '@trpc/server': 10.13.2
+      chart.js: 4.2.1
       localforage: 1.10.0
       match-sorter: 6.3.1
       react: 18.1.0
+      react-chartjs-2: 5.2.0_c6cbc4qrzepdmj35cxiqkg64aa
       react-dom: 18.2.0_react@18.1.0
       react-router-dom: 6.8.2_2q7l3o2s2f77g7novtsxtrhvne
       react-syntax-highlighter: 15.5.0_react@18.1.0
@@ -661,6 +669,10 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
+  /@kurkle/color/0.3.2:
+    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
+    dev: false
+
   /@lukeed/ms/2.0.1:
     resolution: {integrity: sha512-Xs/4RZltsAL7pkvaNStUQt7netTkyxrS0K+RILcVr3TRMS/ToOg4I6uNfhB9SlGsnWBym4U+EaXq0f0cEMNkHA==}
     engines: {node: '>=8'}
@@ -935,6 +947,10 @@ packages:
 
   /@types/throttle-debounce/5.0.0:
     resolution: {integrity: sha512-Pb7k35iCGFcGPECoNE4DYp3Oyf2xcTd3FbFQxXUI9hEYKUl6YX+KLf7HrBmgVcD05nl50LIH6i+80js4iYmWbw==}
+    dev: true
+
+  /@types/ua-parser-js/0.7.36:
+    resolution: {integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==}
     dev: true
 
   /@types/unist/2.0.6:
@@ -1427,6 +1443,13 @@ packages:
 
   /character-reference-invalid/1.1.4:
     resolution: {integrity: sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==}
+    dev: false
+
+  /chart.js/4.2.1:
+    resolution: {integrity: sha512-6YbpQ0nt3NovAgOzbkSSeeAQu/3za1319dPUQTXn9WcOpywM8rGKxJHrhS8V8xEkAlk8YhEfjbuAPfUyp6jIsw==}
+    engines: {pnpm: ^7.0.0}
+    dependencies:
+      '@kurkle/color': 0.3.2
     dev: false
 
   /chokidar/3.5.3:
@@ -3392,6 +3415,16 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /react-chartjs-2/5.2.0_c6cbc4qrzepdmj35cxiqkg64aa:
+    resolution: {integrity: sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      chart.js: 4.2.1
+      react: 18.1.0
+    dev: false
+
   /react-dom/18.2.0_react@18.1.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -4021,6 +4054,10 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
+
+  /ua-parser-js/1.0.34:
+    resolution: {integrity: sha512-K9mwJm/DaB6mRLZfw6q8IMXipcrmuT6yfhYmwhAkuh+81sChuYstYA+znlgaflUPaYUa3odxKPKGw6Vw/lANew==}
+    dev: false
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}

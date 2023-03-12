@@ -1,6 +1,7 @@
 import { publicProcedure, router } from "./trpc";
 import { authRouter } from "./router/auth";
 import { userRouter } from "./router/user";
+import { applicationRouter } from "./router/applications";
 
 export const appRouter = router({
   api: router({
@@ -9,6 +10,7 @@ export const appRouter = router({
     }),
     auth: authRouter,
     user: userRouter,
+    applications: applicationRouter,
   }),
 });
 

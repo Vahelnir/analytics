@@ -1,10 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../components/ui/Navbar";
-import { trpc } from "../trpc";
 
 export function DashboardLayout() {
-  trpc.api.auth.isAuthenticated.useQuery();
-
   return (
     <>
       <Navbar />

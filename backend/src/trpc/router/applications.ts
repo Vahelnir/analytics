@@ -2,10 +2,15 @@ import { randomUUID } from "crypto";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import isURL from "validator/lib/isURL";
-import { applicationToDto } from "../../../dto/application";
-import { loggedProcedure, router } from "../../trpc";
+import { applicationToDto } from "../../dto/application";
+import { loggedProcedure, router } from "../trpc";
+import { clicksPerMonth } from "./applications/clicksPerMonth";
+import { mostUsedPeripherals } from "./applications/mostUsedPeripherals";
+import { mostClickedElements } from "./applications/mostClickedElements";
+import { mostUsedSizes } from "./applications/mostUsedSizes";
+import { averageLatency } from "./applications/averageLatency";
 
-export const userApplicationsRouter = router({
+export const applicationRouter = router({
   all: loggedProcedure.query(async ({ ctx: { loggedUser } }) => {
     const currentUser = loggedUser.user;
 
@@ -58,4 +63,9 @@ export const userApplicationsRouter = router({
       await currentUser.save();
       return true;
     }),
+  mostClickedElements,
+  mostUsedPeripherals,
+  clicksPerMonth,
+  mostUsedSizes,
+  averageLatency,
 });

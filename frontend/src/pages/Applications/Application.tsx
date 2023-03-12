@@ -24,11 +24,10 @@ export function Application() {
   if (!applicationId) {
     throw new Error("applicationId param is not defined");
   }
-  const applicationQuery = trpc.api.user.applications.find.useQuery({
+  const applicationQuery = trpc.api.applications.find.useQuery({
     id: applicationId,
   });
-  const deleteApplicationMutation =
-    trpc.api.user.applications.delete.useMutation();
+  const deleteApplicationMutation = trpc.api.applications.delete.useMutation();
   const application = applicationQuery.data;
 
   async function deleteApplication() {

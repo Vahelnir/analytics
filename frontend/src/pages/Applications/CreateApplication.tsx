@@ -7,8 +7,7 @@ type CreateApplicationFormData = { name: string; domain: string };
 
 export function CreateApplication() {
   const navigate = useNavigate();
-  const createApplicationMutation =
-    trpc.api.user.applications.new.useMutation();
+  const createApplicationMutation = trpc.api.applications.new.useMutation();
   const [state, setState] = useState<CreateApplicationFormData>({
     name: "",
     domain: "",
