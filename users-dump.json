@@ -1,0 +1,37 @@
+{
+  "_id": { "$oid": "640e2ec9c6eda8b0889ebf45" },
+  "username": "Utilisateur",
+  "password": "$argon2id$v=19$m=65536,t=3,p=4$zHAYLnVECVr+G2rdUYEjmw$o+56tUiNtiGf1Vgqi/symr22CTP3U/GiPOjtKDTOyL4",
+  "email": "utilisateur@site.fr",
+  "applications": [
+    {
+      "name": "Application 1",
+      "token": "94086418-da30-4a1a-950f-27e19cb6f17d",
+      "domain": "application.fr",
+      "_id": { "$oid": "640e2ee9c6eda8b0889ebf53" }
+    },
+    {
+      "name": "Application 2",
+      "token": "11d41ce2-58bf-4f1c-91bc-9d8b4f7177d7",
+      "domain": "application2.fr",
+      "_id": { "$oid": "640e2ef1c6eda8b0889ebf5b" }
+    },
+    {
+      "name": "Localhost",
+      "token": "627daa7a-6b40-402a-b2cf-e58f80f8ecc6",
+      "domain": "localhost",
+      "_id": { "$oid": "640e2ef6c6eda8b0889ebf65" }
+    }
+  ],
+  "tokens": [
+    {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGUyZWM5YzZlZGE4YjA4ODllYmY0NSIsImlhdCI6MTY3ODY1NTQ1NiwiZXhwIjoxNjc4NjU2NjU2fQ.mtrML4PR0RC64CTogAea8JRtKARsn9u-NmRwusfgQTs",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGUyZWM5YzZlZGE4YjA4ODllYmY0NSIsImlhdCI6MTY3ODY1NTQ1NiwiZXhwIjoxNjc5MjYwMjU2fQ.kQHuoaukGYMXhTG6YseifPv_lN82kQZ7L72Dq4ZbiEg",
+      "expiresAt": { "$date": "2023-03-19T21:10:56.313Z" },
+      "_id": { "$oid": "640e3fe01bd76361ea7bdf28" }
+    }
+  ],
+  "createdAt": { "$date": "2023-03-12T19:58:01.082Z" },
+  "updatedAt": { "$date": "2023-03-12T21:10:56.322Z" },
+  "__v": 7
+}
