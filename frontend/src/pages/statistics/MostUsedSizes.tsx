@@ -57,6 +57,12 @@ export function MostUsedSizes({
   }, [mostClickedElements]);
 
   return (
-    <>{mostClickedElements ? <Bar options={options} data={data} /> : "rien"}</>
+    <>
+      {mostClickedElements ? (
+        <Bar options={options} data={data} />
+      ) : (
+        "Chargement..."
+      )}
+    </>
   );
 }

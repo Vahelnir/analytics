@@ -4,8 +4,8 @@ import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Logout } from "./pages/Logout";
 import { Applications } from "./pages/Applications";
-import { Application } from "./pages/Applications/Application";
-import { CreateApplication } from "./pages/Applications/CreateApplication";
+import { Application } from "./pages/applications/Application";
+import { CreateApplication } from "./pages/applications/CreateApplication";
 import { Home } from "./pages/Home";
 
 export const router = createBrowserRouter([

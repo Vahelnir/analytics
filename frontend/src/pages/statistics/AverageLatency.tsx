@@ -54,6 +54,12 @@ export function AverageLatency({
   }, [averageLatency]);
 
   return (
-    <>{averageLatency ? <Line options={options} data={data} /> : "rien"}</>
+    <>
+      {averageLatency ? (
+        <Line options={options} data={data} />
+      ) : (
+        "Chargement..."
+      )}
+    </>
   );
 }

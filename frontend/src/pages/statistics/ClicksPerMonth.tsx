@@ -54,6 +54,12 @@ export function ClicksPerMonth({
   }, [clicksPerMonth]);
 
   return (
-    <>{clicksPerMonth ? <Line options={options} data={data} /> : "rien"}</>
+    <>
+      {clicksPerMonth ? (
+        <Line options={options} data={data} />
+      ) : (
+        "Chargement..."
+      )}
+    </>
   );
 }

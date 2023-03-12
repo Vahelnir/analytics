@@ -55,6 +55,12 @@ export function MostClickedElements({
   }, [mostClickedElements]);
 
   return (
-    <>{mostClickedElements ? <Bar options={options} data={data} /> : "rien"}</>
+    <>
+      {mostClickedElements ? (
+        <Bar options={options} data={data} />
+      ) : (
+        "Chargement..."
+      )}
+    </>
   );
 }
