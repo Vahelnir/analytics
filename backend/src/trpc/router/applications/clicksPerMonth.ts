@@ -39,7 +39,9 @@ export const clicksPerMonth = loggedProcedure
             total: { $sum: 1 },
           },
         },
-        { $sort: { total: -1 } },
+        {
+          $sort: { "_id.year": 1, "_id.month": 1 },
+        },
       ]);
       return t.map((data) => ({
         year: data._id.year,

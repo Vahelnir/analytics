@@ -46,6 +46,9 @@ export const averageLatency = loggedProcedure
             },
           },
         },
+        {
+          $sort: { "_id.year": 1, "_id.month": 1 },
+        },
       ]).limit(10);
       return t.map((data) => ({
         month: data._id.month,
