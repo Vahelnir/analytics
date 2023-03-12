@@ -20,10 +20,13 @@
     "@fastify/jwt": "^6.6.0",
     "@fastify/static": "^6.9.0",
     "@trpc/server": "^10.13.2",
+    "@types/validator": "^13.7.13",
     "argon2": "^0.30.3",
     "fastify": "^4.13.0",
     "mongoose": "^7.0.0",
+    "react": "^18.2.0",
     "superjson": "^1.12.2",
+    "validator": "^13.9.0",
     "zod": "^3.20.6"
   },
   "devDependencies": {
