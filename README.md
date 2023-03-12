@@ -73,7 +73,7 @@ I tried tech I hadn't used before, like [TRPC](https://github.com/trpc/trpc), [R
 3. URLs:
    - Backend: http://localhost:3000
    - Frontend: http://localhost:8080
-4. You can import the `users-dump.json` into your database as the `users` collection.
+4. You can import the `users-dump.json` into your database as the `users` collection. (it seems mongo-express cannot import the file, but copy/pasting into the new document works)
 5. The user is
    - email: `utilisateur@site.fr`
    - password: `utilisateur`
