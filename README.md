@@ -8,7 +8,7 @@ I tried tech I hadn't used before, like [TRPC](https://github.com/trpc/trpc), [R
 
 ## Getting started
 
-### Development envirnment
+### Development environment
 
 1. You have to install Node, [PNPM](https://pnpm.io/installation) and Docker (with docker compose)
 2. Go to the project root directory
