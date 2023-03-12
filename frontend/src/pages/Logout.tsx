@@ -5,7 +5,7 @@ import { trpc } from "../trpc";
 
 export function Logout() {
   const navigate = useNavigate();
-  const logoutMutation = trpc.api.user.logout.useMutation();
+  const logoutMutation = trpc.api.auth.logout.useMutation();
 
   async function logout() {
     await logoutMutation.mutateAsync();
