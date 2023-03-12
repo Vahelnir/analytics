@@ -10,6 +10,8 @@ I tried tech I hadn't used before, like [TRPC](https://github.com/trpc/trpc), [R
 
 ### Development environment
 
+/!\ Do not forget to use Prettier as your formatter & to properly lint your project
+
 1. You have to install Node, [PNPM](https://pnpm.io/installation) and Docker (with docker compose)
 2. Go to the project root directory
 3. Install dependecies
@@ -18,13 +20,14 @@ I tried tech I hadn't used before, like [TRPC](https://github.com/trpc/trpc), [R
    pnpm install
    ```
 
-4. Start the mongo & mongo-express services:
+4. `pnpm prepare` to install the git hooks
+5. Start the mongo & mongo-express services:
 
    ```shell
    docker compose up -d
    ```
 
-5. To start a project in dev mode:
+6. To start a project in dev mode:
 
 - Backend:
 
@@ -47,7 +50,7 @@ I tried tech I hadn't used before, like [TRPC](https://github.com/trpc/trpc), [R
   pnpm dev
   ```
 
-6. You can build the whole project by using (can be run anywhere in the project)
+7. You can build the whole project by using (can be run anywhere in the project)
 
    ```shell
    pnpm -r build
