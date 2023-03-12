@@ -5,6 +5,7 @@ import { Login } from "./pages/Login";
 import { Logout } from "./pages/Logout";
 import { Applications } from "./pages/Applications";
 import { Application } from "./pages/Applications/Application";
+import { CreateApplication } from "./pages/Applications/CreateApplication";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: "applications/:applicationId",
         element: <Application />,
+      },
+      {
+        path: "applications/new",
+        element: <CreateApplication />,
       },
     ],
   },

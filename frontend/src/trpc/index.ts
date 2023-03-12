@@ -9,12 +9,14 @@ function redirectToLogin() {
   return router.navigate("/login");
 }
 
+const refreshEndpoint = "api.auth.refresh";
+
 export const trpc = createTRPCReact<AppRouter>();
 export const trpcClient = trpc.createClient({
   transformer: superjson,
   links: [
     authLink({
-      ignore: ["api.user.refresh"],
+      ignore: [refreshEndpoint],
       async refresh() {
         const { refreshToken: currentRefreshToken } = getAuthTokens();
         if (!currentRefreshToken) {
@@ -28,10 +30,13 @@ export const trpcClient = trpc.createClient({
             path: string,
             input: Record<string, string>
           ) => Promise<AuthTokens>
-        )("api.user.refresh", { refreshToken: currentRefreshToken });
+        )(refreshEndpoint, { refreshToken: currentRefreshToken });
         setAuthTokens(tokens);
       },
-      onFailedRefresh: () => redirectToLogin(),
+      onFailedRefresh: (error) => {
+        console.error(error);
+        return redirectToLogin();
+      },
     }),
     httpBatchLink({
       url: "http://localhost:3000/trpc",
